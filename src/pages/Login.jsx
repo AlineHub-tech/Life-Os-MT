@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaLock, FaEnvelope, FaFingerprint } from 'react-icons/fa';
-import axios from 'axios';
+import api from '../api';
 import '../styles/Login.css';
 
 function Login({ setIsAuthenticated }) {
@@ -10,24 +10,17 @@ function Login({ setIsAuthenticated }) {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
     try {
-      // 🔌 Real Axios request directly connecting to your port 5000 Express Server
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
-        email: email,
-        password: password
-      });
-
+      const response = await api.post('/auth/login', { email, password });
       if (response.data.success) {
         localStorage.setItem('lifeos_token', response.data.token);
         localStorage.setItem('lifeos_user_id', response.data.user.id);
         localStorage.setItem('lifeos_user_name', response.data.user.name);
-        
         setIsAuthenticated(true);
         navigate('/dashboard');
       }
@@ -43,14 +36,12 @@ function Login({ setIsAuthenticated }) {
         
         <div className="login-branding-header">
           <div className="login-app-logo-wrapper">
-            <img src="/logo.jpeg" alt="LifeOS Logo" className="login-corporate-logo" onError={(e) => { e.target.style.display = 'none'; }} />
-            <FaFingerprint className="login-fallback-brand-icon" />
+            <FaFingerprint className="login-fallback-brand-icon" style={{ color: 'var(--primary)', fontSize: '3.5rem' }} />
           </div>
           <h1>LifeOS</h1>
           <p className="login-subtitle">Your Personal Operating System</p>
           <div className="login-slogan-badge">Plan • Track • Analyze • Improve</div>
         </div>
-
         <form onSubmit={handleLoginSubmit} className="login-interactive-form">
           {error && <div className="login-error-alert-box">{error}</div>}
           
@@ -66,18 +57,17 @@ function Login({ setIsAuthenticated }) {
             <label>Password</label>
             <div className="login-input-with-icon-wrapper">
               <span className="login-field-icon"><FaLock /></span>
-              <input type="password" placeholder="123456" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <input type="password" placeholder="••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
-          </div>
-
-          <div className="login-form-meta-links">
-            <span onClick={() => navigate('/forgot-password')} className="login-forgot-password-anchor" style={{cursor: 'pointer'}}>Wibagiwe Password?</span>
           </div>
 
           <button type="submit" className="login-submit-action-btn" disabled={isLoading}>
             {isLoading ? 'Iri kugenzura...' : 'Injira kuri Dashboard'}
           </button>
         </form>
+        <p style={{ marginTop: '20px', fontSize: '0.9rem', textAlign: 'center', color: 'var(--text-main)' }}>
+          Nta Account ufite? <span onClick={() => navigate('/register')} style={{ color: 'var(--primary)', cursor: 'pointer', fontWeight: '700' }}>Fungura nshya hano</span>
+        </p>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { FaClock, FaCheck, FaTimes, FaMinus, FaSave } from 'react-icons/fa';
-import axios from 'axios';
+import api from '../api';
 import '../styles/Routine.css';
 
 function Routine({ setIsAuthenticated }) {
@@ -27,13 +27,7 @@ function Routine({ setIsAuthenticated }) {
   useEffect(() => {
     const fetchTodayRoutine = async () => {
       try {
-        const token = localStorage.getItem('lifeos_token');
-        
-        // ⚠️ FIXED: Here we pass the explicit authorization headers
-        const response = await axios.get('http://localhost:5000/api/routine/today', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-
+        const response = await api.get('/routine/today');
         if (response.data.success && response.data.hasData) {
           setTasks(response.data.data.tasks);
           setPhoneOveruse(response.data.data.phoneOveruse || 'Biri hagati');
@@ -47,7 +41,6 @@ function Routine({ setIsAuthenticated }) {
         setIsLoading(false);
       }
     };
-
     fetchTodayRoutine();
   }, []);
 
@@ -57,27 +50,18 @@ function Routine({ setIsAuthenticated }) {
 
   const handleSaveRoutineLog = async () => {
     try {
-      const token = localStorage.getItem('lifeos_token');
-      
-      // ⚠️ FIXED: Explicit header tokens configuration injected safely
-      const response = await axios.post('http://localhost:5000/api/routine/record', {
-        tasks,
-        phoneOveruse
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
+      const response = await api.post('/routine/record', { tasks, phoneOveruse });
       if (response.data.success) {
-        alert("Gahunda y'umunsi (Checklist Logs) yabitswe neza muri MongoDB Atlas!");
+        alert("Gahunda y'umunsi (Checklist Logs) yabitswe neza muri MongoDB Atlas Cloud!");
       }
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.message || "Guhuriza data ya routine muri database byanze!");
+      alert("Guhuriza data ya routine muri database byanze!");
     }
   };
 
   if (isLoading) {
-    return <div className="loading-state-wrapper" style={{padding:'40px', textAlign:'center'}}>Loading active lifestyle framework...</div>;
+    return <div className="loading-state-wrapper" style={{padding:'40px', textAlign:'center', fontWeight:'700', color:'var(--primary)'}}>Loading lifestyle framework metrics...</div>;
   }
 
   return (
@@ -87,7 +71,7 @@ function Routine({ setIsAuthenticated }) {
       <main className="routine-light-container">
         <div className="routine-header-block">
           <h2>Daily Routine Action Checklist</h2>
-          <p>Mesa imyitwarire yawe ugereranyije n'amasaha waduhaye. Buri action igomba kugira checklist isobanutse neza.</p>
+          <p>Mesa imyitwarire yawe ugereranyije n'amasaha waduhaye. Buri action igomba kuba isobanutse neza.</p>
         </div>
 
         <div className="routine-flex-ledger-container">

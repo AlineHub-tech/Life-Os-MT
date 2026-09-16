@@ -2,32 +2,40 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { FaWallet, FaPlus, FaBook, FaArrowUp, FaArrowDown, FaPiggyBank, FaUserPlus } from 'react-icons/fa';
-import axios from 'axios';
+import api from '../api';
 import '../styles/Finance.css';
 
 function Finance({ setIsAuthenticated }) {
   const [transactions, setTransactions] = useState([]);
   const [summary, setSummary] = useState({ 
-    totalIncome: 0, totalSavings: 0, totalExpenses: 0, availableBalance: 0, moneyLentPending: 0, moneyBorrowedPending: 0 
+    totalIncome: 0, 
+    totalSavings: 0, 
+    totalExpenses: 0, 
+    availableBalance: 0, 
+    moneyLentPending: 0, 
+    moneyBorrowedPending: 0 
   });
   
   const [form, setForm] = useState({
-    earnedToday: '', savedToday: '', usedUseful: 'Hoya', usefulAmount: '', usefulReason: '',
-    wastedUseless: 'Hoya', wastedAmount: '', wastedReason: '', hasDebts: 'Hoya',
-    debtOwedTo: '', debtAmount: '', debtPaid: 'Hoya', hasLent: 'Hoya',
+    earnedToday: '',
+    savedToday: '',
+    usedUseful: 'Hoya',
+    usefulAmount: '',
+    usefulReason: '',
+    wastedUseless: 'Hoya',
+    wastedAmount: '',
+    wastedReason: '',
+    hasDebts: 'Hoya',
+    debtOwedTo: '',
+    debtAmount: '',
+    debtPaid: 'Hoya',
+    hasLent: 'Hoya',
     lentToPersons: [{ name: '', amount: '', paidBack: 'Hoya' }]
   });
 
-  // Gufata amakuru y'umutungo mbumbe usesuye biva muri MongoDB Atlas
   const fetchFinancialLedger = async () => {
     try {
-      const token = localStorage.getItem('lifeos_token');
-      
-      // ⚠️ FIXED: Hano twongeyeho Token neza muri Request Headers
-      const response = await axios.get('http://localhost:5000/api/finance/ledger', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      
+      const response = await api.get('/finance/ledger');
       if (response.data.success) {
         setTransactions(response.data.history || []);
         setSummary(response.data.summary);
@@ -40,7 +48,6 @@ function Finance({ setIsAuthenticated }) {
   useEffect(() => {
     fetchFinancialLedger();
   }, []);
-
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -58,21 +65,14 @@ function Finance({ setIsAuthenticated }) {
       lentToPersons: [...form.lentToPersons, { name: '', amount: '', paidBack: 'Hoya' }]
     });
   };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('lifeos_token');
-      
-      // ⚠️ FIXED: Injections ya headers token kugira ngo 401 ikemuke
-      const response = await axios.post('http://localhost:5000/api/finance/record', form, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
+      const response = await api.post('/finance/record', form);
       if (response.data.success) {
-        alert('Imikoreshereze y\'imari yawe yabitswe neza muri MongoDB Atlas!');
-        fetchFinancialLedger(); // Refresh amakuru ku mizingo
-        
-        // Reset Form layout fields
+        alert('Imikoreshereze y\'imari yawe yabitswe neza muri MongoDB Atlas Cloud!');
+        fetchFinancialLedger();
         setForm({
           earnedToday: '', savedToday: '', usedUseful: 'Hoya', usefulAmount: '', usefulReason: '',
           wastedUseless: 'Hoya', wastedAmount: '', wastedReason: '', hasDebts: 'Hoya',
@@ -82,7 +82,7 @@ function Finance({ setIsAuthenticated }) {
       }
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.message || 'Guhuriza data ya finance muri database byanze!');
+      alert('Guhuriza data ya finance muri database byanze!');
     }
   };
   return (
@@ -95,14 +95,13 @@ function Finance({ setIsAuthenticated }) {
           <p>Real Personal Bookkeeping Framework — Connected to Cloud MongoDB Atlas Instance.</p>
         </div>
 
-        {/* Spreadsheets scoreboards cards components grids layout */}
         <div className="finance-numerical-matrix-grid">
           <div className="fin-data-node border-top-green">
             <span><FaArrowUp /> Total Income</span>
             <h2>{summary.totalIncome.toLocaleString()} FRW</h2>
           </div>
           <div className="fin-data-node border-top-primary">
-            <span><FaPiggyBank /> Total Savings (Studio Fund)</span>
+            <span><FaPiggyBank /> Total Savings</span>
             <h2>{summary.totalSavings.toLocaleString()} FRW</h2>
           </div>
           <div className="fin-data-node border-top-red">
@@ -129,26 +128,22 @@ function Finance({ setIsAuthenticated }) {
         <div className="finance-split-workspace-panel">
           <div className="workspace-card-box">
             <h3>Record Daily Financial Activity</h3>
-            
             <form onSubmit={handleFormSubmit} className="pure-form-stack">
               <div className="form-field-node">
                 <label>Ayo Nakoreye uwo munsi (FRW):</label>
                 <input type="number" name="earnedToday" value={form.earnedToday} onChange={handleFormChange} placeholder="e.g. 20000" required />
               </div>
-
               <div className="form-field-node">
                 <label>Ayo na Savinze uwo munsi (FRW):</label>
                 <input type="number" name="savedToday" value={form.savedToday} onChange={handleFormChange} placeholder="e.g. 1500" required />
               </div>
-
               <div className="form-field-node">
                 <label>Ese hari ayo wakoresheje uyu munsi mu bintu by'umumaro?</label>
                 <select name="usedUseful" value={form.usedUseful} onChange={handleFormChange}>
-                  <option value="Hoya">Hoya</option>
-                  <option value="Yego">Yego</option>
+                  <option value="Hoya">Hoya (No useful expenses)</option>
+                  <option value="Yego">Yego (Yes, logged below)</option>
                 </select>
               </div>
-
               {form.usedUseful === 'Yego' && (
                 <div className="conditional-form-sub-block">
                   <div className="form-field-node">
@@ -157,7 +152,7 @@ function Finance({ setIsAuthenticated }) {
                   </div>
                   <div className="form-field-node">
                     <label>Ibyo Nayakoresheje / Icyo nakoze:</label>
-                    <input type="text" name="usefulReason" value={form.usefulReason} onChange={handleFormChange} placeholder="e.g. Transport, Food" required />
+                    <input type="text" name="usefulReason" value={form.usefulReason} onChange={handleFormChange} required />
                   </div>
                 </div>
               )}
@@ -165,8 +160,8 @@ function Finance({ setIsAuthenticated }) {
               <div className="form-field-node">
                 <label>Ese hari ayo wanesesaguye mu bidafite umumaro?</label>
                 <select name="wastedUseless" value={form.wastedUseless} onChange={handleFormChange}>
-                  <option value="Hoya">Hoya</option>
-                  <option value="Yego">Yego</option>
+                  <option value="Hoya">Hoya (No unnecessary waste)</option>
+                  <option value="Yego">Yego (Yes, wasted assets)</option>
                 </select>
               </div>
 
@@ -186,8 +181,8 @@ function Finance({ setIsAuthenticated }) {
               <div className="form-field-node">
                 <label>Ese hari umuntu ubonereye ideni uyu munsi?</label>
                 <select name="hasDebts" value={form.hasDebts} onChange={handleFormChange}>
-                  <option value="Hoya">Hoya</option>
-                  <option value="Yego">Yego</option>
+                  <option value="Hoya">Hoya (No active debt taken)</option>
+                  <option value="Yego">Yego (Yes, I owe someone)</option>
                 </select>
               </div>
 
@@ -221,6 +216,7 @@ function Finance({ setIsAuthenticated }) {
 
               {form.hasLent === 'Yego' && (
                 <div className="conditional-form-sub-block">
+                  <label style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--secondary)', display: 'block', marginBottom: '10px' }}>Urutonde rw'abo wagurije:</label>
                   {form.lentToPersons.map((person, index) => (
                     <div key={index} className="dynamic-lent-row-grid">
                       <input type="text" placeholder="Amazina" value={person.name} onChange={(e) => handleLentPersonChange(index, 'name', e.target.value)} required />
@@ -247,8 +243,8 @@ function Finance({ setIsAuthenticated }) {
                   <div key={entry._id || entry.id} className="ledger-history-card-row">
                     <div className="ledger-card-date-node">{entry.date}</div>
                     <div className="ledger-card-details-node">
-                      <p>🍏 <strong>Income:</strong> +{entry.earnedToday.toLocaleString()} FRW</p>
-                      <p>💎 <strong>Savings:</strong> +{entry.savedToday.toLocaleString()} FRW</p>
+                      <p>🍏 <strong>Income:</strong> +{(entry.earnedToday || 0).toLocaleString()} FRW</p>
+                      <p>💎 <strong>Savings:</strong> +{(entry.savedToday || 0).toLocaleString()} FRW</p>
                       {entry.usefulExpense?.amount > 0 && <p>👜 <strong>Useful Expense:</strong> -{entry.usefulExpense.amount.toLocaleString()} FRW ({entry.usefulExpense.reason})</p>}
                       {entry.wastedExpense?.amount > 0 && <p style={{ color: '#dc2626' }}>🚨 <strong>Wasted:</strong> -{entry.wastedExpense.amount.toLocaleString()} FRW ({entry.wastedExpense.reason})</p>}
                     </div>

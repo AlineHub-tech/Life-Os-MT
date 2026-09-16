@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { FaClock, FaCalendarAlt, FaAward, FaPiggyBank } from 'react-icons/fa';
-import axios from 'axios';
+import { FaClock, FaCalendarAlt, FaAward, FaPiggyBank, FaCheckCircle, FaMinusCircle, FaExclamationTriangle } from 'react-icons/fa';
+import api from '../api';
 import '../styles/Dashboard.css';
 
 function Dashboard({ setIsAuthenticated }) {
@@ -15,25 +15,15 @@ function Dashboard({ setIsAuthenticated }) {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
-
   useEffect(() => {
     const fetchDashboardCloudData = async () => {
       try {
-        const token = localStorage.getItem('lifeos_token');
-        
-        // ⚠️ FIXED ACCURATE DATABASE DATE STRING SYNCHRONIZER
-        const responseStats = await axios.get('http://localhost:5000/api/finance/ledger', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-
-        const responseRoutine = await axios.get('http://localhost:5000/api/routine/today', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const responseStats = await api.get('/finance/ledger');
+        const responseRoutine = await api.get('/routine/today');
 
         if (responseRoutine.data.success && responseRoutine.data.hasData) {
           setTodaysTasks(responseRoutine.data.data.tasks || []);
         }
-
         if (responseStats.data.success) {
           setFinanceStats({
             totalIncome: responseStats.data.summary.totalIncome || 0,
@@ -41,12 +31,11 @@ function Dashboard({ setIsAuthenticated }) {
           });
         }
       } catch (err) {
-        console.error('Error compiling dashboard analytics:', err);
+        console.error('Error compiling dashboard metrics:', err);
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchDashboardCloudData();
   }, []);
 
@@ -57,31 +46,27 @@ function Dashboard({ setIsAuthenticated }) {
   const completedCount = todaysTasks.filter(t => t.status === 'Completed').length;
   const partialCount = todaysTasks.filter(t => t.status === 'Partially completed').length;
   const disciplineScore = totalTasksCount > 0 ? Math.round(((completedCount + (partialCount * 0.5)) / totalTasksCount) * 100) : 0;
-
-  if (isLoading) {
-    return <div className="dashboard-loading-spinner">Syncing LifeOS Real Dashboard Matrix...</div>;
-  }
+  if (isLoading) return <div className="dashboard-loading-spinner">Syncing Live Dashboard Matrix...</div>;
 
   return (
     <div className="layout-wrapper-light">
       <Navbar setIsAuthenticated={setIsAuthenticated} />
       
       <main className="dashboard-pro-main-layout">
-        
         <div className="dashboard-marquee-banner">
           <div className="marquee-left-clock">
-            <h2>{formattedTime}</h2>
+            <h2><FaClock style={{ color: 'var(--primary)' }} /> {formattedTime}</h2>
             <p><FaCalendarAlt /> {formattedDate}</p>
           </div>
           <div className="marquee-right-slogan">
-            <p><strong>Umuhigo si umuhigo, ni ukuwesa!</strong> Studio Fund yawe ya photography (Target: 500k-1M FRW) igomba kuzura paka ikamba.</p>
+            <p><strong>Umuhigo si umuhigo, ni ukuwesa!</strong> Studio Fund yawe ya photography (Target: 500k-1M FRW) igumye ku mizingo ihamye.</p>
           </div>
         </div>
 
         <div className="dashboard-executive-metrics-grid">
           <div className="metric-pro-card border-accent-orange">
             <div className="metric-card-icon-wrapper"><FaAward /></div>
-            <div className="metric-card-body">
+            <div className="metric-pro-card-body">
               <span>Discipline Performance</span>
               <h2>{disciplineScore}%</h2>
               <div className="score-evaluation-indicator">
@@ -89,7 +74,6 @@ function Dashboard({ setIsAuthenticated }) {
               </div>
             </div>
           </div>
-
           <div className="metric-pro-card border-accent-green">
             <div className="metric-card-icon-wrapper"><FaPiggyBank /></div>
             <div className="metric-pro-card-body">
@@ -99,7 +83,6 @@ function Dashboard({ setIsAuthenticated }) {
             </div>
           </div>
         </div>
-
         <div className="dashboard-content-panel-box">
           <div className="panel-box-header">
             <h3>Today's Habit Registry Status Checklist</h3>
@@ -116,6 +99,9 @@ function Dashboard({ setIsAuthenticated }) {
                   </div>
                   <div className="task-row-right-status">
                     <span className={`task-badge-pill-node status-color-${t.status.toLowerCase().replace(/ /g, '-')}`}>
+                      {t.status === 'Completed' && <FaCheckCircle />}
+                      {t.status === 'Partially completed' && <FaMinusCircle />}
+                      {t.status === 'Missed' && <FaExclamationTriangle />}
                       {t.status}
                     </span>
                   </div>
@@ -123,15 +109,13 @@ function Dashboard({ setIsAuthenticated }) {
               ))
             ) : (
               <div className="dashboard-empty-state-card">
-                <p>Nta bikorwa bya routine logs birandikwa uyu munsi muri MongoDB Atlas cloud cluster.</p>
+                <p>🔴 Nta bikorwa bya routine logs birandikwa uyu munsi muri MongoDB Atlas cloud cluster.</p>
                 <p className="sub-empty-text">Genda kuri paji ya <strong>"Routine"</strong> u-ticking imyitwarire yawe uze kubika gahunda yawe.</p>
               </div>
             )}
           </div>
         </div>
-
       </main>
-
       <Footer />
     </div>
   );

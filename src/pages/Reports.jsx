@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { FaChartBar, FaCalendarAlt, FaDownload, FaStar, FaAward, FaPiggyBank, FaArrowUp } from 'react-icons/fa';
-import axios from 'axios';
+import api from '../api';
 import '../styles/Reports.css';
 
 function Reports({ setIsAuthenticated }) {
@@ -15,21 +15,12 @@ function Reports({ setIsAuthenticated }) {
   const [todaysRoutine, setTodaysRoutine] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch performance indicators directly from MongoDB Atlas Cloud Cluster
+  // Gufata amakuru usesuye y'ibyo Aline yakoze uwo munsi biva muri MongoDB Atlas
   useEffect(() => {
     const fetchReportsCloudData = async () => {
       try {
-        const token = localStorage.getItem('lifeos_token');
-        
-        // 1. Fetch live finance logs to calculate scoreboard variables
-        const financeRes = await axios.get('http://localhost:5000/api/finance/ledger', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-
-        // 2. Fetch live routine checklist to display what happened today
-        const routineRes = await axios.get('http://localhost:5000/api/routine/today', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const financeRes = await api.get('/finance/ledger');
+        const routineRes = await api.get('/routine/today');
 
         if (routineRes.data.success && routineRes.data.hasData) {
           setTodaysRoutine(routineRes.data.data.tasks || []);
@@ -46,7 +37,7 @@ function Reports({ setIsAuthenticated }) {
           }, 0);
 
           setAnalytics({
-            disciplineScore: 82, // Standard dynamic default calculation index linked
+            disciplineScore: 82, 
             totalIncome: income,
             totalSavings: savings,
             totalExpenses: expenses
@@ -61,7 +52,7 @@ function Reports({ setIsAuthenticated }) {
 
     fetchReportsCloudData();
   }, []);
-  // 📄 EXECUTIVE PDF GENERATION ROUTINE ENGINE WITH NO-OVERFLOW TABLES
+  // 📄 PRINT AND EXPORT THE ACTUAL REPORT TABLE SHOWING WHAT ALINE DID TODAY
   const handleDownloadPDFReport = () => {
     const reportWindow = window.open('', '_blank');
     let routineRowsHtml = '';
@@ -82,13 +73,13 @@ function Reports({ setIsAuthenticated }) {
         `;
       });
     } else {
-      routineRowsHtml = `<tr><td colspan="4" style="padding: 15px; text-align: center; color: #64748b;">Nta bikorwa bya routine logs byasanzwe uyu munsi muri MongoDB Atlas.</td></tr>`;
+      routineRowsHtml = `<tr><td colspan="4" style="padding: 15px; text-align: center; color: #64748b;">Nta bikorwa bya routine logs byasanzwe uyu munsi muri MongoDB Atlas Cloud.</td></tr>`;
     }
 
     reportWindow.document.write(`
       <html>
         <head>
-          <title>LifeOS Weekly Executive Audit</title>
+          <title>LifeOS — Aline's Executive Performance Audit</title>
           <style>
             body { font-family: sans-serif; padding: 40px; color: #111827; background: #ffffff; }
             .header { text-align: center; margin-bottom: 30px; border-bottom: 3px solid #ff4d05; padding-bottom: 20px; }
@@ -106,15 +97,15 @@ function Reports({ setIsAuthenticated }) {
         <body>
           <div class="header">
             <h1>LifeOS Executive Performance Audit</h1>
-            <p>Generated automatically from MongoDB Cloud Instance | System Light Theme</p>
+            <p>Official Statement Generated for Aline | MongoDB Cloud Infrastructure</p>
           </div>
           <div class="section-title">Core Performance Indicators</div>
           <div class="metrics-grid">
             <div class="metric-card"><span>Discipline Score</span><h2>${analytics.disciplineScore}%</h2></div>
-            <div class="metric-card"><span>Studio Savings</span><h2 style="color: #16a34a;">${analytics.totalSavings.toLocaleString()} FRW</h2></div>
-            <div class="metric-card"><span>Total Expenses</span><h2 style="color: #dc2626;">${analytics.totalExpenses.toLocaleString()} FRW</h2></div>
+            <div class="metric-card"><span>Studio Fund Savings</span><h2 style="color: #16a34a;">${analytics.totalSavings.toLocaleString()} FRW</h2></div>
+            <div class="metric-card"><span>Total Expenses Stack</span><h2 style="color: #dc2626;">${analytics.totalExpenses.toLocaleString()} FRW</h2></div>
           </div>
-          <div class="section-title">Daily Routine Checklist Logs (What Happened)</div>
+          <div class="section-title">Daily Routine Checklist Logs (Aline's Activities Statement)</div>
           <table class="data-table">
             <thead>
               <tr>
@@ -126,7 +117,7 @@ function Reports({ setIsAuthenticated }) {
             </thead>
             <tbody>${routineRowsHtml}</tbody>
           </table>
-          <div class="footer-note">LifeOS &copy; — Plan • Track • Analyze • Improve. Official proof of personal performance.</div>
+          <div class="footer-note">LifeOS Framework &copy; — Plan • Track • Analyze • Improve. Official proof of performance.</div>
           <script>window.onload = function() { window.print(); }</script>
         </body>
       </html>
@@ -139,7 +130,7 @@ function Reports({ setIsAuthenticated }) {
     { day: 'Thu', score: 65 }, { day: 'Fri', score: 80 }, { day: 'Sat', score: 75 }, { day: 'Sun', score: 70 }
   ];
   if (isLoading) {
-    return <div className="loading-state-wrapper" style={{ padding: '40px', textAlign: 'center', color: 'var(--primary)' }}>Compiling cloud database statistics...</div>;
+    return <div className="loading-state-wrapper" style={{ padding: '40px', textAlign: 'center', color: 'var(--primary)', fontWeight: '700' }}>Compiling cloud database statistics for Aline...</div>;
   }
 
   return (
@@ -149,10 +140,9 @@ function Reports({ setIsAuthenticated }) {
       <main className="reports-clean-main">
         <div className="reports-header-block-node">
           <h2><FaChartBar style={{ color: 'var(--primary)' }} /> Performance Analytics & Reports</h2>
-          <p>Sunday Saa 22:30 PM Automatic Report Engine — Connected to Cloud MongoDB Atlas Instance.</p>
+          <p>Real-time Statements Console — Connected to Cloud MongoDB Atlas Instance for Aline.</p>
         </div>
 
-        {/* Dynamic scoreboards counters grids cards */}
         <div className="reports-summary-scoreboard-row">
           <div className="reports-analytics-badge-node">
             <span><FaAward /> Weekly Discipline Score</span>
@@ -167,12 +157,11 @@ function Reports({ setIsAuthenticated }) {
           <div className="reports-analytics-badge-node">
             <span><FaArrowUp /> Total Month Income</span>
             <h4 className="text-blue-node">{analytics.totalIncome.toLocaleString()} FRW</h4>
-            <p className="compare-sub-label">Calculated from dynamic bookkeeping history</p>
+            <p className="compare-sub-label">Calculated from dynamic cloud bookkeeping history</p>
           </div>
         </div>
-
-        {/* Chart progression timeline and download action panel */}
         <div className="reports-split-workspace-panel">
+          
           <div className="reports-panel-card-box-clean">
             <h3><FaCalendarAlt style={{ color: 'var(--primary)' }} /> Daily Score Progression Chart</h3>
             <div className="pure-css-chart-bar-lane-wrapper-node">
@@ -188,22 +177,35 @@ function Reports({ setIsAuthenticated }) {
               ))}
             </div>
             <div className="reports-automated-detections-alert-card-clean">
-              <p><strong><FaStar className="yellow-text" /> Cloud Sync Protection:</strong> Your routine commits and photography goals track variables are sync'd to the cloud database permanently.</p>
+              <p><strong><FaStar className="yellow-text" /> Cloud Protect:</strong> Imirongo yose y'amakuru ihujwe na database ihamye usesuye.</p>
             </div>
           </div>
 
+          {/* REAL LIFE DISPLAY PANEL OF WHAT ALINE DID TODAY INSTEAD OF CHAT */}
           <div className="reports-panel-card-box-clean export-panel-light-accent">
-            <h3>Executive Reporting Center</h3>
-            <div className="export-narrative-block-node">
-              <h5>Official Statement Documentation</h5>
-              <p>
-                Uru rukuta rukurikirana imyitwarire yawe ya buri munsi harimo na routine ya 04:00 AM n'igishoro cya photography studio. Kanda buto ya ruguru kugira ngo ushyurure (Download) ifishi handles yuzuye neza.
-              </p>
+            <h3>Aline's Active Routine Tasks Status</h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-main)', marginBottom: '15px' }}>
+              Ibi ni ibikorwa byanditswe uyu munsi muri database nyayo:
+            </p>
+            
+            <div className="reports-live-routine-preview-stack" style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '250px', overflowY: 'auto', paddingRight: '4px' }}>
+              {todaysRoutine.length > 0 ? (
+                todaysRoutine.map((task, index) => (
+                  <div key={index} style={{ padding: '10px', backgroundColor: 'var(--bg-soft)', borderRadius: '6px', borderLeft: '3px solid var(--primary)', display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
+                    <span><strong>{task.time}</strong> — {task.name}</span>
+                    <span style={{ fontWeight: '700', color: task.status === 'Completed' ? '#16a34a' : task.status === 'Partially completed' ? '#eab308' : '#dc2626' }}>{task.status}</span>
+                  </div>
+                ))
+              ) : (
+                <p style={{ fontStyle: 'italic', fontSize: '0.85rem', color: 'var(--text-main)' }}>🔴 Nta bikorwa bya routine logs birabikwa muri MongoDB uyu munsi usesuye.</p>
+              )}
             </div>
-            <button type="button" className="btn-trigger-pdf-download" onClick={handleDownloadPDFReport}>
+
+            <button type="button" className="btn-trigger-pdf-download" onClick={handleDownloadPDFReport} style={{ marginTop: '20px' }}>
               <FaDownload /> Download Weekly PDF Executive Report
             </button>
           </div>
+
         </div>
       </main>
 
