@@ -1,0 +1,66 @@
+/* ==========================================
+   ⚙️ PROFESSIONAL ENTERPRISE LIGHT FOOTER STYLES
+   ========================================== */
+
+.lifeos-footer-light {
+  background-color: var(--bg-soft);
+  border-top: 1px solid var(--border-clean);
+  padding: 24px 40px;
+  width: 100%;
+  box-sizing: border-box; /* Zibira overflow handles zose */
+  margin-top: auto; /* Secures sticky node configuration layout at page bottom bounds */
+}
+
+.footer-fluid-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-copyright-notice {
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.brand-accent-text {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.footer-motto-text {
+  color: var(--secondary);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+/* ==========================================
+   📱 🌟 ACCURATE MOBILE LIQUID STACK QUERY (Under 640px)
+   ========================================== */
+@media (max-width: 640px) {
+  .lifeos-footer-light {
+    padding: 20px 16px;
+  }
+
+  /* 🚫 FORCE COLUMN STACK: Ibi birinda footer kurenga screen kuri telephone */
+  .footer-fluid-container {
+    flex-direction: column; /* Ibihinduka umurongo umwe stacked vertically */
+    gap: 10px;
+    text-align: center;
+  }
+
+  .footer-motto-text {
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+  }
+  
+  .footer-copyright-notice {
+    font-size: 0.85rem;
+  }
+}

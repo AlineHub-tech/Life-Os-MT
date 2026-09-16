@@ -1,0 +1,93 @@
+.lifeos-navbar-light {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-light);
+  padding: 0 40px;
+  height: 70px;
+  border-bottom: 1px solid var(--border-clean);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.navbar-brand-node {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-asset-logo-img {
+  height: 42px;
+  width: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--primary);
+}
+
+.logo-text-node {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--secondary);
+}
+
+.navbar-links-lane {
+  display: flex;
+  list-style: none;
+  gap: 24px;
+  align-items: center;
+}
+
+.nav-item-node {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.nav-item-node:hover {
+  color: var(--primary);
+}
+
+.mobile-toggle-trigger, .mobile-only-logout-lane {
+  display: none;
+}
+
+.btn-logout-node {
+  background-color: rgba(220, 38, 38, 0.06);
+  border: 1px solid #dc2626;
+  color: #dc2626;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+/* 📱 Responsive Tablet & Mobile view drawer layout */
+@media (max-width: 868px) {
+  .lifeos-navbar-light { padding: 0 20px; }
+  .mobile-toggle-trigger { display: block; font-size: 1.4rem; color: var(--secondary); cursor: pointer; }
+  
+  .navbar-links-lane {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-light);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+  .navbar-links-lane.active { max-height: 380px; border-bottom: 1px solid var(--border-clean); }
+  .nav-item-node { padding: 14px 20px; width: 100%; border-top: 1px solid var(--bg-soft); }
+  .navbar-actions-desktop-node { display: none; }
+  .mobile-only-logout-lane { display: block; width: 100%; }
+  .btn-logout-mobile-node { width: 100%; padding: 14px 20px; background: none; border: none; border-top: 1px solid var(--bg-soft); color: #dc2626; text-align: left; font-weight: 600; }
+}

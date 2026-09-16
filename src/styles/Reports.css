@@ -1,0 +1,210 @@
+/* ==========================================
+   ⚡ HIGH-GRADE RESPONSIVE FLEX CONTAINER FOR REPORTS
+   ========================================== */
+
+.reports-clean-main {
+  flex: 1;
+  padding: 40px 24px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box; /* Zibira overflow handles zose */
+}
+
+.reports-header-block-node h2 {
+  font-size: 1.6rem;
+  color: var(--secondary);
+  font-weight: 800;
+}
+
+.reports-header-block-node p {
+  color: var(--text-main);
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+/* Scoreboards counter summary rows layout split */
+.reports-summary-scoreboard-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin: 32px 0;
+  width: 100%;
+}
+
+.reports-analytics-badge-node {
+  background-color: var(--bg-soft);
+  border: 1px solid var(--border-clean);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.reports-analytics-badge-node span {
+  font-size: 0.85rem;
+  color: var(--text-main);
+  text-transform: uppercase;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.large-score-bold-text {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 4px 0;
+}
+
+.evaluation-tag-light {
+  font-size: 0.75rem;
+  font-weight: 700;
+  background-color: rgba(255, 77, 5, 0.08);
+  color: var(--primary);
+  padding: 4px 10px;
+  border-radius: 4px;
+  width: max-content;
+}
+
+.text-green-node { color: #16a34a; font-size: 1.4rem; margin: 6px 0; font-weight: 700; }
+.text-blue-node { color: var(--secondary); font-size: 1.4rem; margin: 6px 0; font-weight: 700; }
+.compare-sub-label { font-size: 0.8rem; color: var(--text-main); }
+
+/* Workspace Splitting Layout Grid */
+.reports-split-workspace-panel {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+  width: 100%;
+}
+
+.reports-panel-card-box-clean {
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-clean);
+  border-radius: 12px;
+  padding: 28px;
+  box-sizing: border-box;
+  min-width: 0; /* Protects layouts width boundaries from overstretching dashboards */
+}
+
+.reports-panel-card-box-clean h3 {
+  color: var(--secondary);
+  font-size: 1.15rem;
+  margin-bottom: 24px;
+  font-weight: 700;
+}
+
+/* Progression graph custom pure-css lanes styling */
+.pure-css-chart-bar-lane-wrapper-node {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.pure-chart-row-element-node {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.chart-row-day-label-node {
+  width: 50px;
+  font-size: 0.9rem;
+  color: var(--secondary);
+  font-weight: 700;
+}
+
+.chart-row-bg-lane-node {
+  flex: 1;
+  background-color: var(--bg-soft);
+  height: 24px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.chart-row-fill-indicator-lane-node {
+  background-color: var(--primary);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  transition: width 0.4s ease-in-out;
+}
+
+.chart-row-inside-percent-tag-node {
+  font-size: 0.75rem;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.reports-automated-detections-alert-card-clean {
+  background-color: var(--bg-soft);
+  border-left: 4px solid var(--primary);
+  padding: 16px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.export-panel-light-accent {
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-clean);
+}
+
+.export-narrative-block-node {
+  margin-bottom: 20px;
+}
+
+.export-narrative-block-node h5 {
+  color: var(--secondary);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.export-narrative-block-node p {
+  color: var(--text-main);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Download Triggers blocks styling elements */
+.btn-trigger-pdf-download {
+  background-color: var(--secondary);
+  color: #ffffff;
+  border: none;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.btn-trigger-pdf-download:hover {
+  background-color: #000000;
+}
+
+/* ==========================================
+   📱 MOBILE & TABLET MEDIA QUERIES RESPONSIVENESS
+   ========================================== */
+@media (max-width: 900px) {
+  .reports-split-workspace-panel {
+    grid-template-columns: 1fr; /* Custom layouts columns stack up stacked vertically */
+    gap: 24px;
+  }
+  .reports-clean-main { padding: 20px 14px; }
+}

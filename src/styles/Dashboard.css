@@ -1,0 +1,338 @@
+/* ==========================================
+   ⚡ ULTRA-PRO LIGHT FLUID DASHBOARD ARCHITECTURE
+   ========================================== */
+
+.dashboard-pro-main-layout {
+  flex: 1;
+  padding: 40px 24px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box; /* Impeccable overflow security barrier */
+}
+
+.dashboard-loading-spinner {
+  padding: 80px 24px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* Header Marquee Banner Card Layout */
+.dashboard-marquee-banner {
+  background-color: var(--bg-soft);
+  border: 1px solid var(--border-clean);
+  border-radius: 14px;
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 24px;
+}
+
+.marquee-left-clock h2 {
+  font-size: 2.4rem;
+  color: var(--secondary);
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.marquee-left-clock p {
+  color: var(--text-main);
+  font-size: 0.95rem;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.marquee-right-slogan {
+  max-width: 580px;
+  border-left: 4px solid var(--primary);
+  padding-left: 24px;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* Executive Scoreboards Grids System */
+.dashboard-executive-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-bottom: 36px;
+  width: 100%;
+}
+
+.metric-pro-card {
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-clean);
+  border-radius: 14px;
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01);
+}
+
+.metric-pro-card.border-accent-orange { border-top: 4px solid var(--primary); }
+.metric-pro-card.border-accent-green { border-top: 4px solid #16a34a; }
+
+.metric-card-icon-wrapper {
+  font-size: 2.8rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+}
+
+.metric-card-body span {
+  font-size: 0.85rem;
+  color: var(--text-main);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.metric-card-body h2 {
+  font-size: 2rem;
+  color: var(--secondary);
+  font-weight: 800;
+  margin: 4px 0;
+}
+
+.score-evaluation-indicator {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary);
+  background-color: rgba(255, 77, 5, 0.06);
+  padding: 4px 10px;
+  border-radius: 6px;
+  width: max-content;
+}
+
+.sub-metric-meta-text {
+  font-size: 0.85rem;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+/* Fluid Content Checklists Framework */
+.dashboard-content-panel-box {
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-clean);
+  border-radius: 14px;
+  padding: 32px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.panel-box-header {
+  margin-bottom: 24px;
+}
+
+.panel-box-header h3 {
+  font-size: 1.25rem;
+  color: var(--secondary);
+  font-weight: 800;
+}
+
+.panel-box-header p {
+  color: var(--text-main);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.dashboard-fluid-rows-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.dashboard-fluid-row-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: var(--bg-soft);
+  border: 1px solid var(--border-clean);
+  border-radius: 10px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.row-state-completed { background-color: #f0fdf4; border-color: rgba(22, 163, 74, 0.15); }
+.row-state-partially-completed { background-color: #fef9c3; border-color: rgba(234, 179, 8, 0.15); }
+.row-state-missed { background-color: #fef2f2; border-color: rgba(220, 38, 38, 0.15); }
+
+.task-row-left-meta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-width: 0;
+}
+
+.task-row-time {
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 0.95rem;
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.task-row-name {
+  color: var(--secondary);
+  font-size: 1.05rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-badge-pill-node {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.status-color-completed { background-color: #dcfce7; color: #15803d; }
+.status-color-partially-completed { background-color: #fef9c3; color: #a16207; }
+.status-color-missed { background-color: #fef2f2; color: #b91c1c; }
+.status-color-pending { background-color: #f1f5f9; color: #475569; }
+
+.pending-dot {
+  height: 6px;
+  width: 6px;
+  background-color: #475569;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dashboard-empty-state-card {
+  text-align: center;
+  padding: 40px 16px;
+  background-color: var(--bg-soft);
+  border: 1px dashed var(--border-clean);
+  border-radius: 10px;
+}
+.dashboard-empty-state-card p { font-weight: 700; color: var(--secondary); }
+.sub-empty-text { font-size: 0.9rem; margin-top: 6px; color: var(--text-main); }
+
+/* ==========================================
+   📱 🌟 HIGHLY FLUENT MEDIA QUERIES FOR TABLETS & MOBILES
+   ========================================== */
+@media (max-width: 900px) {
+  .dashboard-pro-main-layout { padding: 24px 16px; }
+  .dashboard-time-marquee { flex-direction: column; align-items: flex-start; padding: 20px; }
+  .marquee-right-slogan { border-left: none; padding-left: 0; margin-top: 12px; }
+  .task-row-left-meta { gap: 16px; }
+  .task-row-time { width: 120px; }
+}
+
+@media (max-width: 640px) {
+  .dashboard-fluid-row-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+  .task-row-left-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    width: 100%;
+  }
+  .task-row-time { width: auto; font-size: 0.9rem; }
+  .task-row-name { font-size: 1rem; white-space: normal; }
+  .task-row-right-status { width: 100%; }
+  .task-badge-pill-node { width: 100%; justify-content: center; padding: 10px; }
+}
+/* ========================================================
+   ⚡ FIXED: FLUID MARQUEE BANNER (DATE, TIME & SLOGAN BLOCK)
+   ======================================================== */
+
+.dashboard-marquee-banner {
+  background-color: var(--bg-soft);
+  border: 1px solid var(--border-clean);
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: row; /* Desktop block ishhashe mu buryo bwa Row */
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box; /* Zibira overflow handles zose 100% */
+}
+
+.marquee-left-clock {
+  flex-shrink: 0;
+  min-width: 220px;
+}
+
+.marquee-left-clock h2 {
+  font-size: 2.2rem;
+  color: var(--secondary);
+  font-weight: 900;
+  letter-spacing: -1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.marquee-left-clock p {
+  color: var(--text-main);
+  font-size: 0.95rem;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.marquee-right-slogan {
+  flex: 1;
+  max-width: 680px;
+  border-left: 4px solid var(--primary);
+  padding-left: 24px;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* ========================================================
+   📱 🌟 HARD TARGET MOBILE MEDIA QUERY (Under 768px)
+   ======================================================== */
+@media (max-width: 768px) {
+  .dashboard-marquee-banner {
+    flex-direction: column; /* 🚫 ACCURATE FORCE ROW STACK: Zihinduka umurongo umwe stacked vertically */
+    align-items: flex-start; /* Alignment ijya ibumoso neza */
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .marquee-left-clock {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .marquee-left-clock h2 {
+    font-size: 1.8rem;
+  }
+
+  .marquee-right-slogan {
+    width: 100%;
+    max-width: 100%;
+    border-left: none; /* Kura border y'iburuyoho kuri mobile */
+    border-top: 2px dashed var(--border-clean); /* Shyingiraho isandiko rya kanyarwanda hasi ya clock */
+    padding-left: 0;
+    padding-top: 14px;
+    margin-top: 4px;
+    font-size: 0.95rem;
+  }
+}
